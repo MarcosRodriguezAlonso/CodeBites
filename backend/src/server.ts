@@ -9,7 +9,11 @@ app.get('/api', (_req: Request, res: Response) => {
   res.json({ message: 'Hello World' })});
 
 app.get('/', (_req: Request, _res: Response) => {
-  throw new AppError('not found', 404);
+  throw new AppError('Not Found', 404);
+});
+
+app.use((_req: Request, _res: Response, next: NextFunction) => {
+  next(new AppError('Not Found', 404));
 });
 
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
