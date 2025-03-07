@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "es2016",                      /* Especifica la versión de JavaScript a la que se transpilará el código. */
+    "module": "commonjs",                     /* Especifica el sistema de módulos que se usará (CommonJS para Node.js). */
+    "strict": true,                           /* Activa todas las comprobaciones estrictas. */
+    "esModuleInterop": true,                  /* Habilita la interoperabilidad con módulos CommonJS. */
+    "skipLibCheck": true,                     /* Omite la comprobación de tipos en los archivos de declaración `.d.ts`. */
+    "forceConsistentCasingInFileNames": true, /* Asegura que el uso de mayúsculas y minúsculas en los nombres de los archivos sea coherente. */
+    "outDir": "./dist",                       /* Directorio de salida donde se guardarán los archivos compilados. */
+    "rootDir": "./src",                       /* Directorio raíz donde están los archivos de código fuente. */
+    "sourceMap": true,                        /* Genera archivos de mapa de origen para facilitar la depuración. */
+    "removeComments": true,                   /* Elimina los comentarios del código compilado. */
+    "declaration": true,                      /* Genera archivos de declaración `.d.ts`. */
+    "declarationMap": true,                   /* Genera mapas de declaración. */
+    "noUnusedLocals": true,                   /* Marca las variables locales no utilizadas. */
+    "noUnusedParameters": true,               /* Marca los parámetros no utilizados en las funciones. */
+    "noImplicitReturns": true,                /* Marca las funciones que no tienen un valor de retorno explícito. */
+    "noFallthroughCasesInSwitch": true,       /* Marca los casos de `switch` que no terminan en un `break`. */
+    "strictNullChecks": true,                 /* Habilita la comprobación estricta de `null` y `undefined`. */
+    "strictFunctionTypes": true               /* Habilita la comprobación estricta de los tipos en funciones. */
+  },
+  "include": [
+    "src/**/*"  /* Incluir todos los archivos dentro del directorio `src`. */
+  ],
+  "exclude": [
+    "node_modules",  /* Excluir `node_modules` del proceso de compilación. */
+    "dist"           /* Excluir los archivos de salida en el directorio `dist`. */
+  ]
+}
