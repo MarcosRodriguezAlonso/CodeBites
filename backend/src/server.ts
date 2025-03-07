@@ -1,20 +1,23 @@
-import express from 'express';
-import path from 'path';
-import cors from 'cors';
+import express, { Request, Response, NextFunction } from 'express';
+import { errorHandler } from './errors/errorHandler';
+import AppError from './errors/AppError';
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = 5000;
 
-app.use(cors());
+app.get('/api', (_req: Request, res: Response) => {
+  res.json({ message: 'Hello World' })});
 
-app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
-
-app.get('/api', (_, res) => {
-  res.json({ message: 'Hello from the backend!' });
+app.get('/', (_req: Request, _res: Response) => {
+  throw new AppError('Not Found', 404);
 });
 
-app.get('*', (_, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+app.use((_req: Request, _res: Response, next: NextFunction) => {
+  next(new AppError('Not Found', 404));
+});
+
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+  errorHandler(err, res);
 });
 
 app.listen(port, () => {
