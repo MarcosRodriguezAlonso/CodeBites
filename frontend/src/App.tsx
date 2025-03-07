@@ -14,7 +14,7 @@ const App = () => {
 
   return (
     <div>
-      <h1>{message ? message : 'Cargando mensaje...'}</h1>
+      <h1>{message ? message : 'Loading message...'}</h1>
     </div>
   );
 };
