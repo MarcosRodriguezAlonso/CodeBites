@@ -1,12 +1,16 @@
 import express, { Request, Response, NextFunction } from 'express';
+import cors from 'cors';
 import { errorHandler } from './errors/errorHandler';
 import AppError from './errors/AppError';
 
 const app = express();
 const port = 5000;
 
+app.use(cors());
+
 app.get('/api', (_req: Request, res: Response) => {
-  res.json({ message: 'Hello World' })});
+  res.json({ message: 'API Is Working' });
+});
 
 app.get('/', (_req: Request, _res: Response) => {
   throw new AppError('Not Found', 404);
