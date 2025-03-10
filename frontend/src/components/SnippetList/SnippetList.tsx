@@ -20,14 +20,15 @@ interface Snippet {
 
 const SnippetList: React.FC = () => {
   const [snippets, setSnippets] = useState<Snippet[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchSnippets = async () => {
       try {
         const response = await api.get('/snippets');
         setSnippets(response.data);
-      } catch (error) {
-        console.error('Error fetching snippets:', error);
+      } catch {
+        setError('Error fetching snippets');
       }
     };
 
@@ -37,15 +38,19 @@ const SnippetList: React.FC = () => {
   return (
     <SnippetListContainer>
       <Title>Snippets</Title>
-      <SnippetListUl>
-        {snippets.map((snippet) => (
-          <SnippetListItem key={snippet._id}>
-            <SnippetTitle>{snippet.title}</SnippetTitle>
-            <SnippetCode>{snippet.code}</SnippetCode>
-            <SnippetLanguage>{snippet.language}</SnippetLanguage>
-          </SnippetListItem>
-        ))}
-      </SnippetListUl>
+      {error ? (
+        <p>{error}</p>
+      ) : (
+        <SnippetListUl>
+          {snippets.map((snippet) => (
+            <SnippetListItem key={snippet._id}>
+              <SnippetTitle>{snippet.title}</SnippetTitle>
+              <SnippetCode>{snippet.code}</SnippetCode>
+              <SnippetLanguage>{snippet.language}</SnippetLanguage>
+            </SnippetListItem>
+          ))}
+        </SnippetListUl>
+      )}
     </SnippetListContainer>
   );
 };
