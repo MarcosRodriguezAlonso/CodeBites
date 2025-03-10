@@ -1,19 +1,25 @@
 import styled from 'styled-components';
 
 export const SnippetListContainer = styled.div`
-  background-color: #2e2e2e;
-  color: #f5f5f5;
+  background-color: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.text};
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 90%;
+  width: 100%;
+  margin: 0 auto;
+  text-align: left;
+  box-sizing: border-box;
 `;
 
 export const Title = styled.h1`
   margin-bottom: 20px;
   font-size: 2rem;
-  color: #f5f5f5;
-  border-bottom: 2px solid #4a4a4a;
+  color: ${({ theme }) => theme.colors.text};
+  border-bottom: 2px solid ${({ theme }) => theme.colors.primary};
   padding-bottom: 10px;
+  text-align: center;
 `;
 
 export const SnippetListUl = styled.ul`
@@ -23,32 +29,35 @@ export const SnippetListUl = styled.ul`
 
 export const SnippetListItem = styled.li`
   margin-bottom: 20px;
-  background-color: #4a4a4a;
+  background-color: ${({ theme }) => theme.colors.primary};
   padding: 15px;
   border-radius: 10px;
-  border: 1px solid #3a3a3a;
+  border: 1px solid ${({ theme }) => theme.colors.border};
   transition: background-color 0.3s ease;
+  text-align: left;
+  width: 100%;
 
   &:hover {
-    background-color: #6a6a6a;
+    background-color: ${({ theme }) => theme.colors.secondary};
   }
 `;
 
 export const SnippetTitle = styled.h2`
   margin: 0 0 10px 0;
   font-size: 1.5rem;
-  color: #f5f5f5;
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 export const SnippetCode = styled.pre`
-  background: #2e2e2e;
+  background: ${({ theme }) => theme.colors.background};
   padding: 10px;
   border-radius: 5px;
-  color: #f5f5f5;
+  color: ${({ theme }) => theme.colors.text};
   overflow-x: auto;
+  border: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
 export const SnippetLanguage = styled.p`
   font-style: italic;
-  color: #f5f5f5;
+  color: ${({ theme }) => theme.colors.text};
 `;

@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../api';
+import {
+  SnippetListContainer,
+  Title,
+  SnippetListUl,
+  SnippetListItem,
+  SnippetTitle,
+  SnippetCode,
+  SnippetLanguage
+} from './SnippetListStyled';
 
 interface Snippet {
   _id: string;
@@ -26,18 +35,18 @@ const SnippetList: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Snippets</h1>
-      <ul>
+    <SnippetListContainer>
+      <Title>Snippets</Title>
+      <SnippetListUl>
         {snippets.map((snippet) => (
-          <li key={snippet._id}>
-            <h2>{snippet.title}</h2>
-            <pre>{snippet.code}</pre>
-            <p>{snippet.language}</p>
-          </li>
+          <SnippetListItem key={snippet._id}>
+            <SnippetTitle>{snippet.title}</SnippetTitle>
+            <SnippetCode>{snippet.code}</SnippetCode>
+            <SnippetLanguage>{snippet.language}</SnippetLanguage>
+          </SnippetListItem>
         ))}
-      </ul>
-    </div>
+      </SnippetListUl>
+    </SnippetListContainer>
   );
 };
 
