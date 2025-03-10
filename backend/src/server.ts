@@ -1,20 +1,33 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
+import mongoose from 'mongoose';
 import { errorHandler } from './errors/errorHandler';
 import AppError from './errors/AppError';
+import { createSnippet, listSnippets } from './controllers/snippetController';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 const port = 5000;
 
+mongoose.connect(process.env.MONGODB_URI!)
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((error) => {
+    console.error('Error connecting to MongoDB:', error);
+  });
+
 app.use(cors());
+app.use(express.json());
 
 app.get('/api', (_req: Request, res: Response) => {
   res.json({ message: 'API Is Working' });
 });
 
-app.get('/', (_req: Request, _res: Response) => {
-  throw new AppError('Not Found', 404);
-});
+app.post('/api/snippets', createSnippet);
+app.get('/api/snippets', listSnippets);
 
 app.use((_req: Request, _res: Response, next: NextFunction) => {
   next(new AppError('Not Found', 404));
