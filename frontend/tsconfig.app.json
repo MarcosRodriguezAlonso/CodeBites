@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
+    "target": "ESNext",
+    "module": "ESNext",
     "moduleResolution": "node",
-    "lib": ["esnext", "dom"],
-    "strict": true,
     "jsx": "react-jsx",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "incremental": true
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["src"]
+  "include": [
+    "src/**/*",
+    "src/setupTests.ts"
+  ]
 }
