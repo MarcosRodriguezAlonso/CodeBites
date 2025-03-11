@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../api';
+import SnippetForm from '../SnippetForm/SnippetForm';
 import {
   SnippetListContainer,
   Title,
@@ -7,16 +8,9 @@ import {
   SnippetListItem,
   SnippetTitle,
   SnippetCode,
-  SnippetLanguage
+  SnippetLanguage,
 } from './SnippetListStyled';
-
-interface Snippet {
-  _id: string;
-  title: string;
-  code: string;
-  language: string;
-  createdAt: string;
-}
+import { Snippet } from '../../types/Snippet';
 
 const SnippetList: React.FC = () => {
   const [snippets, setSnippets] = useState<Snippet[]>([]);
@@ -35,22 +29,24 @@ const SnippetList: React.FC = () => {
     fetchSnippets();
   }, []);
 
+  const handleSnippetCreated = (newSnippet: Snippet) => {
+    setSnippets([...snippets, newSnippet]);
+  };
+
   return (
     <SnippetListContainer>
       <Title>Snippets</Title>
-      {error ? (
-        <p>{error}</p>
-      ) : (
-        <SnippetListUl>
-          {snippets.map((snippet) => (
-            <SnippetListItem key={snippet._id}>
-              <SnippetTitle>{snippet.title}</SnippetTitle>
-              <SnippetCode>{snippet.code}</SnippetCode>
-              <SnippetLanguage>{snippet.language}</SnippetLanguage>
-            </SnippetListItem>
-          ))}
-        </SnippetListUl>
-      )}
+      <SnippetForm onSnippetCreated={handleSnippetCreated} />
+      {error && <p>{error}</p>}
+      <SnippetListUl>
+        {snippets.map((snippet) => (
+          <SnippetListItem key={snippet._id}>
+            <SnippetTitle>{snippet.title}</SnippetTitle>
+            <SnippetCode>{snippet.code}</SnippetCode>
+            <SnippetLanguage>{snippet.language}</SnippetLanguage>
+          </SnippetListItem>
+        ))}
+      </SnippetListUl>
     </SnippetListContainer>
   );
 };
