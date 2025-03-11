@@ -19,11 +19,20 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
 });
 
 beforeAll(async () => {
-  await mongoose.connect(process.env.MONGODB_URI!);
+  await mongoose.connect(global.__MONGO_URI__, {
+  });
 });
 
 afterAll(async () => {
-  await mongoose.connection.close();
+  await mongoose.disconnect();
+});
+
+afterEach(async () => {
+  const collections = mongoose.connection.collections;
+  for (const key in collections) {
+    const collection = collections[key];
+    await collection.deleteMany({});
+  }
 });
 
 describe('Snippet API', () => {

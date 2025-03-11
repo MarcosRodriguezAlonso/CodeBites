@@ -1,14 +1,19 @@
 import React from "react";
-import { screen } from "@testing-library/react";
-import { customRenderWithRouter } from "../../testUtils/wrappers";
+import { render, screen } from "@testing-library/react";
 import App from "./App";
+import theme from "../../theme";
+import { ThemeProvider } from "styled-components";
 
 describe("Given an App component", () => {
   describe("When it is rendered", () => {
-    test("Then it should show the title 'Code Snippets'", () => {
+    test("Then it should show the title 'Snippets'", () => {
       const expectedTitle = "Snippets";
 
-      customRenderWithRouter(<App />);
+      render(
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      );
 
       const title = screen.getByRole("heading", { name: expectedTitle });
 
