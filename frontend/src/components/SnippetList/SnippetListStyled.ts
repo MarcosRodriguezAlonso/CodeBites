@@ -36,6 +36,7 @@ export const SnippetListItem = styled.li`
   transition: background-color 0.3s ease;
   text-align: left;
   width: 100%;
+  position: relative;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.secondary};
