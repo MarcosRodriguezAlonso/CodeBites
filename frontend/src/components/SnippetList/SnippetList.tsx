@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../api';
+import { deleteSnippet } from '../../api';
 import SnippetForm from '../SnippetForm/SnippetForm';
+import DeleteButton from '../Button/Button';
 import {
   SnippetListContainer,
   Title,
@@ -21,8 +23,9 @@ const SnippetList: React.FC = () => {
       try {
         const response = await api.get('/snippets');
         setSnippets(response.data);
-      } catch {
-        setError('Error fetching snippets');
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Error fetching snippets';
+        setError(errorMessage);
       }
     };
 
@@ -31,6 +34,16 @@ const SnippetList: React.FC = () => {
 
   const handleSnippetCreated = (newSnippet: Snippet) => {
     setSnippets([...snippets, newSnippet]);
+  };
+
+  const handleDeleteSnippet = async (id: string) => {
+    try {
+      await deleteSnippet(id);
+      setSnippets(snippets.filter(snippet => snippet._id !== id));
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Error deleting snippet';
+      setError(errorMessage);
+    }
   };
 
   return (
@@ -44,6 +57,7 @@ const SnippetList: React.FC = () => {
             <SnippetTitle>{snippet.title}</SnippetTitle>
             <SnippetCode>{snippet.code}</SnippetCode>
             <SnippetLanguage>{snippet.language}</SnippetLanguage>
+            <DeleteButton onClick={() => handleDeleteSnippet(snippet._id)} />
           </SnippetListItem>
         ))}
       </SnippetListUl>
