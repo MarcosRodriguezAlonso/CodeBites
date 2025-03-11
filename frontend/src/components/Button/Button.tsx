@@ -6,12 +6,14 @@ interface DeleteButtonProps {
   onClick: () => void;
 }
 
+const FaTrashIcon: React.FC = FaTrash as React.FC;
+
 const DeleteButton: React.FC<DeleteButtonProps> = ({ onClick }) => {
   return (
     <Button onClick={onClick}>
-      <FaTrash />
+      <FaTrashIcon />
     </Button>
-  )
+  );
 };
 
 export default DeleteButton;
