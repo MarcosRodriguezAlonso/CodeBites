@@ -22,3 +22,16 @@ export const listSnippets = async (_req: Request, res: Response) => {
   const snippets = await Snippet.find();
   res.json(snippets);
 };
+
+export const deleteSnippet = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const snippet = await Snippet.findByIdAndDelete(req.params.id);
+    if (!snippet) {
+      throw new AppError('Snippet not found', 404);
+    }
+
+    res.json(snippet);
+  } catch (error) {
+    next(error);
+  }
+}

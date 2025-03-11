@@ -1,7 +1,7 @@
 import request from 'supertest';
 import express from 'express';
 import mongoose from 'mongoose';
-import { createSnippet, listSnippets } from '../controllers/snippetController';
+import { createSnippet, listSnippets, deleteSnippet } from '../controllers/snippetController';
 import { Request, Response, NextFunction } from 'express';
 import { errorHandler } from '../errors/errorHandler';
 import dotenv from 'dotenv';
@@ -14,13 +14,13 @@ const app = express();
 app.use(express.json());
 app.post('/api/snippets', createSnippet);
 app.get('/api/snippets', listSnippets);
+app.delete('/api/snippets/:id', deleteSnippet);
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   errorHandler(err, res);
 });
 
 beforeAll(async () => {
-  await mongoose.connect(global.__MONGO_URI__, {
-  });
+  await mongoose.connect(global.__MONGO_URI__);
 });
 
 afterAll(async () => {
@@ -68,6 +68,33 @@ describe('Snippet API', () => {
       const response = await request(app).get('/api/snippets');
       expect(response.status).toBe(200);
       expect(response.body).toBeInstanceOf(Array);
+    });
+  });
+
+  describe('DELETE /api/snippets/:id', () => {
+    test('should delete a snippet', async () => {
+      const newSnippet = {
+        title: 'Test Snippet',
+        code: 'console.log("Hello, world!");',
+        language: 'JavaScript',
+      };
+
+      const createResponse = await request(app).post('/api/snippets').send(newSnippet);
+      const snippetId = createResponse.body._id;
+
+      const deleteResponse = await request(app).delete(`/api/snippets/${snippetId}`);
+      expect(deleteResponse.status).toBe(200);
+      expect(deleteResponse.body).toHaveProperty('_id', snippetId);
+
+      const getResponse = await request(app).get('/api/snippets');
+      expect(getResponse.body).not.toContainEqual(expect.objectContaining({ _id: snippetId }));
+    });
+
+    test('should return 404 if snippet does not exist', async () => {
+      const nonExistentId = new mongoose.Types.ObjectId().toString();
+      const response = await request(app).delete(`/api/snippets/${nonExistentId}`);
+      expect(response.status).toBe(404);
+      expect(response.body).toHaveProperty('error', 'Snippet not found');
     });
   });
 });
