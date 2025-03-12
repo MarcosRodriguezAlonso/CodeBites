@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { toast, Zoom } from 'react-toastify';
 import api from '../../api';
 import { deleteSnippet } from '../../api';
 import SnippetForm from '../SnippetForm/SnippetForm';
@@ -34,12 +35,34 @@ const SnippetList: React.FC = () => {
 
   const handleSnippetCreated = (newSnippet: Snippet) => {
     setSnippets([...snippets, newSnippet]);
+    toast.success('Snippet created!', {
+      position: "top-center",
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Zoom,
+    }); 
   };
 
   const handleDeleteSnippet = async (id: string) => {
     try {
       await deleteSnippet(id);
       setSnippets(snippets.filter(snippet => snippet._id !== id));
+      toast.error('Snippet deleted!', {
+        position: "top-center",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Zoom,
+      });
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Error deleting snippet';
       setError(errorMessage);
