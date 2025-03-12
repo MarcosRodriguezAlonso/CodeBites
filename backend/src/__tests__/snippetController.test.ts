@@ -1,7 +1,7 @@
 import request from 'supertest';
 import express from 'express';
 import mongoose from 'mongoose';
-import { createSnippet, listSnippets, deleteSnippet } from '../controllers/snippetController';
+import { createSnippet, listSnippets, deleteSnippet, updateSnippet } from '../controllers/snippetController';
 import { Request, Response, NextFunction } from 'express';
 import { errorHandler } from '../errors/errorHandler';
 import dotenv from 'dotenv';
@@ -15,6 +15,7 @@ app.use(express.json());
 app.post('/api/snippets', createSnippet);
 app.get('/api/snippets', listSnippets);
 app.delete('/api/snippets/:id', deleteSnippet);
+app.patch('/api/snippets/:id', updateSnippet);
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   errorHandler(err, res);
 });
@@ -93,6 +94,45 @@ describe('Snippet API', () => {
     test('should return 404 if snippet does not exist', async () => {
       const nonExistentId = new mongoose.Types.ObjectId().toString();
       const response = await request(app).delete(`/api/snippets/${nonExistentId}`);
+      expect(response.status).toBe(404);
+      expect(response.body).toHaveProperty('error', 'Snippet not found');
+    });
+  });
+  
+  describe('PATCH /api/snippets/:id', () => {
+    test('should update a snippet', async () => {
+      const newSnippet = {
+        title: 'Test Snippet',
+        code: 'console.log("Hello, world!");',
+        language: 'JavaScript',
+      };
+
+      const createResponse = await request(app).post('/api/snippets').send(newSnippet);
+      const snippetId = createResponse.body._id;
+
+      const updatedSnippet = {
+        title: 'Updated Snippet',
+        code: 'console.log("Updated code!");',
+        language: 'TypeScript',
+      };
+
+      const updateResponse = await request(app).patch(`/api/snippets/${snippetId}`).send(updatedSnippet);
+      expect(updateResponse.status).toBe(200);
+      expect(updateResponse.body).toHaveProperty('_id', snippetId);
+      expect(updateResponse.body.title).toBe(updatedSnippet.title);
+      expect(updateResponse.body.code).toBe(updatedSnippet.code);
+      expect(updateResponse.body.language).toBe(updatedSnippet.language);
+    });
+
+    test('should return 404 if snippet does not exist', async () => {
+      const nonExistentId = new mongoose.Types.ObjectId().toString();
+      const updatedSnippet = {
+        title: 'Updated Snippet',
+        code: 'console.log("Updated code!");',
+        language: 'TypeScript',
+      };
+
+      const response = await request(app).patch(`/api/snippets/${nonExistentId}`).send(updatedSnippet);
       expect(response.status).toBe(404);
       expect(response.body).toHaveProperty('error', 'Snippet not found');
     });
