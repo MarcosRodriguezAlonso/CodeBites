@@ -48,15 +48,15 @@ const SnippetList: React.FC = () => {
 
   return (
     <SnippetListContainer>
-      <Title>Snippets</Title>
+      <Title>CodeBites</Title>
       <SnippetForm onSnippetCreated={handleSnippetCreated} />
       {error && <p>{error}</p>}
       <SnippetListUl>
         {snippets.map((snippet) => (
           <SnippetListItem key={snippet._id}>
             <SnippetTitle>{snippet.title}</SnippetTitle>
-            <SnippetCode>{snippet.code}</SnippetCode>
             <SnippetLanguage>{snippet.language}</SnippetLanguage>
+            <SnippetCode>{snippet.code}</SnippetCode>
             <DeleteButton onClick={() => handleDeleteSnippet(snippet._id)} />
           </SnippetListItem>
         ))}

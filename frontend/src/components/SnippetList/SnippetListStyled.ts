@@ -5,9 +5,9 @@ export const SnippetListContainer = styled.div`
   color: ${({ theme }) => theme.colors.text};
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 90%;
-  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.75);
+  max-width: 1200px;
+  width: 90%;
   margin: 0 auto;
   text-align: left;
   box-sizing: border-box;
@@ -37,6 +37,7 @@ export const SnippetListItem = styled.li`
   text-align: left;
   width: 100%;
   position: relative;
+  padding-bottom: 40px;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.secondary};

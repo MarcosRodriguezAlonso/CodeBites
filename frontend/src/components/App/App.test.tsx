@@ -6,8 +6,8 @@ import { ThemeProvider } from "styled-components";
 
 describe("Given an App component", () => {
   describe("When it is rendered", () => {
-    test("Then it should show the title 'Snippets'", () => {
-      const expectedTitle = "Snippets";
+    test("Then it should show the title 'CodeBites'", () => {
+      const expectedTitle = "CodeBites";
 
       render(
         <ThemeProvider theme={theme}>
