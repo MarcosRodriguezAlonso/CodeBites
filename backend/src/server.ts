@@ -3,7 +3,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import { errorHandler } from './errors/errorHandler';
 import AppError from './errors/AppError';
-import { createSnippet, listSnippets, deleteSnippet } from './controllers/snippetController';
+import { createSnippet, listSnippets, deleteSnippet, updateSnippet } from './controllers/snippetController';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -29,6 +29,7 @@ app.get('/api', (_req: Request, res: Response) => {
 app.post('/api/snippets', createSnippet);
 app.get('/api/snippets', listSnippets);
 app.delete('/api/snippets/:id', deleteSnippet);
+app.patch('/api/snippets/:id', updateSnippet);
 
 app.use((_req: Request, _res: Response, next: NextFunction) => {
   next(new AppError('Not Found', 404));

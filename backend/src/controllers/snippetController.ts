@@ -35,3 +35,27 @@ export const deleteSnippet = async (req: Request, res: Response, next: NextFunct
     next(error);
   }
 }
+
+export const updateSnippet = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const updateData: Partial<{ title: string; code: string; language: string }> = {};
+
+    if (req.body.title) updateData.title = req.body.title;
+    if (req.body.code) updateData.code = req.body.code;
+    if (req.body.language) updateData.language = req.body.language;
+
+    const snippet = await Snippet.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true, runValidators: true }
+    );
+
+    if (!snippet) {
+      throw new AppError('Snippet not found', 404);
+    }
+
+    res.json(snippet);
+  } catch (error) {
+    next(error);
+  }
+};
