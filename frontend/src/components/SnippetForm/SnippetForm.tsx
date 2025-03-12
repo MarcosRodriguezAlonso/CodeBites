@@ -51,20 +51,20 @@ const SnippetForm: React.FC<SnippetFormProps> = ({ onSnippetCreated }) => {
           />
         </FormField>
         <FormField>
-          <FormLabel htmlFor="code">Code</FormLabel>
-          <FormTextarea
-            id="code"
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            required
-          />
-        </FormField>
-        <FormField>
           <FormLabel htmlFor="language">Language</FormLabel>
           <FormInput
             id="language"
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
+            required
+          />
+        </FormField>
+        <FormField>
+          <FormLabel htmlFor="code">Code</FormLabel>
+          <FormTextarea
+            id="code"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
             required
           />
         </FormField>
